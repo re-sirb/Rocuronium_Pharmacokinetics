@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8">
+	<title>Rocuronium</title>
+	<link rel="stylesheet" href="adjuncts/bootstrap.min.css">
+	<link rel="icon" type="image/x-icon" href="adjuncts/favicon.ico">
+<style>
+	body{
+		font-family: Arial, Helvetica, sans-serif;
+		min-width: 1000px;
+		background-color: #eee;
+	}
+	
+	.noselect {
+	  -webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		 -khtml-user-select: none; /* Konqueror HTML */
+		   -moz-user-select: none; /* Old versions of Firefox */
+			-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently
+									  supported by Chrome, Edge, Opera and Firefox */
+	}
+	
+	@font-face {
+    font-family: "bst_font";
+    src: url("adjuncts/glyphicons-halflings-regular.ttf") format("truetype");
+	}
+	.info_font { 
+    font-family: "bst_font", Verdana, Tahoma;
+	}
+	
+</style>
+</head>
+<body>
+	<!-- Modal -->
+	<div class="modal noselect" id="myModal">
+	  <div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+		  <!-- Modal Header -->
+		  <div class="modal-header">
+			<h4 class="modal-title" id="modal_title"> </h4>
+			<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+
+		  <!-- Modal body -->
+		  <div class="modal-body" id="modal_body">
+			 
+		  </div>
+
+		  <!-- Modal footer -->
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">OK</button>
+		  </div>
+
+		</div>
+	  </div>
+	</div>
+	
+	<div class="container-xl mt-3" style="min-width: 1200px;" >
+		<div class="border border-secondary rounded-4 p-3" style="background-color: #fff;">
+			<!-- head -->
+			<div class="row text-center noselect">
+				<h1>Rocuronium</h1>
+			</div>
+			<!-- body -->
+			<div class="row">
+			<!-- Dateneingabe -->
+				<div class="col-4">
+				<!-- Patient -->
+					<div class="border border-secondary rounded-4 p-3 m-2 noselect" id="input_patient" style="display:block;">
+						<div>
+							<h5>Patienten-Daten</h5>
+						</div>
+						<div class="container">
+							<table>
+								<tr>
+									<td>
+										<label class="m-1" for="p_weight">Gewicht: </label>
+									</td>
+									<td>
+										<input type="text" placeholder="Gewicht (40-160kg)" id="p_weight" class="form-control"></input>
+									</td>
+									<td>
+										<label class="m-1" for="p_weight">kg</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label class="m-1" for="p_height">Größe: </label>
+									</td>
+									<td>
+										<input type="text" placeholder="Größe (140-220cm)" id="p_height" class="form-control"></input>
+									</td>
+									<td>
+										<label class="m-1" for="p_height">cm</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label class="m-1" for="p_age">Alter: </label>
+									</td>
+									<td>
+										<input type="text" placeholder="Alter (15-100)" id="p_age" class="form-control"></input>
+									</td>
+									<td>
+										<label class="m-1" for="p_age">Jahre</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label class="m-1">Geschlecht: </label>
+									</td>
+									<td>
+										<select id="p_gender" class="form-select" aria-label="Auswahl">
+										  <option value="1" selected>weiblich</option>
+										  <option value="2">männlich</option>
+										</select>
+									</td>
+									<td>
+										 
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="m-2 text-center">
+							<button type="button" class="btn btn-outline-success w-100" onclick="enter_patient();">Bestätigen</button>
+						</div>						
+					</div>
+				<!-- Zusammenfassung -->
+					<div class="border border-secondary rounded-4 p-2 m-2 noselect" id="info_patient" style="display:none;">
+						<span id="info_patient_txt"></span>
+					</div>
+				<!-- Daten -->
+					<div class="border border-secondary rounded-4 p-3 m-2 noselect" id="input_data" style="display:none;">
+						<div>
+							<h5>Daten hinzufügen</h5>
+						</div>
+						
+						<div class="m-1">
+							<select id="d_select" class="form-select" aria-label="Auswahl">
+							  <option value="1" selected>Rocuronium mg</option>
+							  <option value="2" disabled>TOF %</option>
+							  <option value="2" disabled>TOF von 4</option>
+							</select>
+						</div>
+						
+						<div class="m-1">
+							<table>
+								<tr>
+									<td>
+										<label class="m-1" for="d_dose">Dosis: </label>
+									</td>
+									<td>
+										<input type="text" placeholder="Dosis in mg" id="d_dose" class="form-control"></input>
+									</td>
+									<td>
+										<label class="m-1" for="d_dose">mg</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label class="m-1" for="d_time">Zeitpunkt: </label>
+									</td>
+									<td>
+										<input type="time" id="d_time" class="form-control"></input>
+									</td>
+									<td>
+										<button type="button" class="btn btn-outline-secondary" onclick="set_now_time();">Jetzt</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="m-2 text-center">
+							<button type="button" class="btn btn-outline-success w-100" onclick="add_roc_value();">Hinzufügen</button>
+						</div>
+						
+						<div class="m-2">
+							<h5>Datenpunkte</h5>
+						</div>
+						
+						<div class="m-1">
+							<select name="d_list" id="d_list" size="5" class="w-100">   
+							</select>  
+						</div>
+						
+						<div class="m-2 text-center">
+							<button type="button" class="btn btn-outline-danger w-100" onclick="remove_item_from_d_list();">Löschen</button>
+						</div>
+						
+						<div class="m-2 mt-3 text-center">
+							<h5>Startzeitpunkt der Berechnung</h5>
+						</div>
+						
+						<div class="m-2 text-center" style="display:block;" id="c_time_display">
+							<span id="c_start_time"> 00:00 Uhr </span>
+						</div>
+						
+						<div class="m-2">
+							<table class="w-100">
+								<tr>
+									<td class="w-50">
+										<input type="radio" class="btn-check" name="options-outlined" id="c_start_1" autocomplete="off" onchange="toggle_calc_start_time();" >
+										<label class="btn btn-outline-secondary w-100" for="c_start_1">Automatisch</label>
+									</td>
+									<td class="w-50">
+										<input type="radio" class="btn-check" name="options-outlined" id="c_start_2" autocomplete="off" onchange="toggle_calc_start_time();" checked>
+										<label class="btn btn-outline-secondary w-100" for="c_start_2">Erste Dosis</label>
+									</td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="m-2 mt-3 text-center">
+							<button type="button" class="btn btn-outline-secondary w-100" onclick="window.location.replace('index.htm');">Beenden</button>
+						</div>
+						
+					</div>
+				</div>
+			<!-- Diagramme -->
+				<div class="col-8">
+					<div class="row">
+						<div class="p-2">
+							<span id="caption_1" class="noselect" >Plasma- / Effektkompartiment-Konzentration (µg/ml)&#x00A0;</span>
+							 <span class="info_font" onclick="show_ce_info();"> &#xe086;</span>
+						</div>
+						<div >
+							<canvas class="noselect" id="pharma_plot" height="100px"></canvas>
+						</div>
+					</div>
+					<div id="progress_bar_container" class="d-none">
+						<div class="progress" role="progressbar" aria-label="Example 20px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 10px">
+							<div class="progress-bar" id="progress" style="width: 10%"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="p-2">
+							<span id="caption_2" class="noselect">Berechneter TOF - Verlauf (%)</span>
+						</div>
+						<div>
+							<canvas id="pharma_plot_2" height="100px"></canvas>
+						</div>
+					</div>
+					<div class="row">
+						<div class="p-2">
+							<span id="tof_estimation" class="d-none">Vorhersage: TOF > 0,95: [no RPC]</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+
+<!-- jQuery -->
+<script type="text/javascript" src="adjuncts/jquery-3.6.4.min.js"></script>
+<!-- BS JavaScript -->
+<script type="text/javascript" src="adjuncts/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="adjuncts/Chart.min.js"></script>
+
+<!-- model -->
+<script type="text/javascript" src="adjuncts/model_1.js"></script>
+<!-- plot -->
+<script type="text/javascript" src="adjuncts/plot_c.js"></script>
+
+<!-- exit warning -->
+<script type="text/javascript">
+    window.onbeforeunload = function() {
+        return "Wollen Sie diese Simulation wirklich beenden?";
+    }
+</script>
+
+</body>
+</html>
